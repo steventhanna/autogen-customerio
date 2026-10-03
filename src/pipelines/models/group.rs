@@ -1,0 +1,86 @@
+/*
+ * Pipelines API
+ *
+ * # Overview In general, you'll consume this API through one of our source libraries—our JavaScript client library or any of our server packages. But you can also integrate directly with our REST API if you don't want to install one of our libraries or you want to support a source that we don't have a native integration with.  # Server addresses: US and EU Customer.io hosts services in the United States (US) and European Union. Select the appropriate server address for your region.  | Region | Server Address | | :-- | :-- | | US | https://cdp.customer.io | | EU | https://cdp-eu.customer.io |  If you're in our EU region, you'll need to specify the EU URL when you initialize our server-side libraries. If you use our JavaScript client library, we'll set your region and route data/calls automatically.  # Authentication & rate limits  Our API uses basic authorization with the API key from your **Customer.io API** integration. If you use Postman or another platform that helps you send API calls, this API key is the *Username*, and the *Password* is blank.  # Get an API key  You can get a Pipelines API key by [setting up the **Customer.io API** integration](/integrations/data-in/connections/http-api/) in your workspace.  Now you can use the key as a username with a blank password to authenticate and send requests to our API.  ## Rate and payload limits  A request is limited to 32KB. A batch request is limited to 500KB total and 32KB per call in the request. If a request exceeds these limits, you will receive a 200 response, but the request will not go through.  The Data Pipelines API has a rate limit of 3000 requests per 3 seconds for both active data integrations and historical backfill scripts. This limit applies to both our v1 and v2 APIs.  While this rate is not strictly enforced, consistently exceeding it may lead to throttling or dropped data, especially during periods of high system load. If we detect a sustained high volume that could impact other customers, we may contact you to help adjust your integration or, in rare cases, temporarily block requests.  <div class=\"fly-panel fly-light regionUS\"> <div class=\"fly-panel-body us-server\"> <p class=\"text--bold\">Warning</p> <p>Rate limits are subject to change. We may adjust these thresholds to ensure stable performance for all customers.</p> </div></div>  # Try out our postman collection  We've generated a Postman collection with all of the endpoints organized as you'll find them on this page, with a starter environment (mainly to contain your API key). For our API endpoints, **your API key is your username and your password is blank**.  You'll notice that payloads on this page can contain significantly more information than the payloads that appear in our collection. We've limited our collections to the fields that you'll _typically_ use when you send calls to our APIs and libraries, so it's easier to get started. But you can add additional fields to payloads—like `context`, `integrations`, and so on—if you want.  If you fork this collection, you might want to disable the *Watch original collection* option. We automatically update our Postman collection whenever we release changes to our documentation, even if we don't change our APIs—which happens daily! Rather than being flooded with Postman notifications, you can check out our [Release Notes](/release-notes/) for updates to our APIs.  [<img src=\"https://run.pstmn.io/button.svg\" alt=\"Run In Postman\" style=\"width: 128px; height: 32px;\">](https://god.gw.postman.com/run-collection/23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61%26entityType%3Dcollection%26workspaceId%3D35e4a70d-66bd-4b3e-8a0c-57f9e32080dc#?env%5BCustomer.io%20Data%20Pipelines%20API%20Environment%5D=W3sia2V5IjoiY2RwX2FwaV91cmwiLCJ0eXBlIjoiZGVmYXVsdCIsInZhbHVlIjoiY2RwLmN1c3RvbWVyLmlvIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJ3cml0ZV9rZXkiLCJ0eXBlIjoic2VjcmV0IiwidmFsdWUiOiIiLCJlbmFibGVkIjp0cnVlfV0=)  # Deletions, suppressions, and other semantic events  You'll notice that this API only contains `POST` calls; we don't have `DELETE` operations. For delete operations, and other operations that don't have bespoke endpoints, we use *semantic events*.  When you need to do things like deleting people, removing relationships, and other sorts of things, you'll send a request to the `/track` endpoint with a specific event `name` parameter. The `name` tells us what to do with the request.  For example, you can send a `track` event with the name `Delete Person` to remove a person from your workspace.  See [Semantic Events](/integrations/data-in/semantic-events/cio-journeys/) to see Customer.io-specific events.  We also support semantic events for other kinds of destinations. See [Semantic Events for other destinations](#semantic-events-for-other-destinations) below for more information.  | Event Name | Description | |------|--------| | `Device Created or Updated` | Adds or updates a mobile device (by token), and associates it with a person | | `Device Deleted` | Deletes a device | | `User Deleted` | Removes a person from your workspace | | `User Suppressed` | Removes a person from your workspace and suppresses their identifiers so you can't add them back to Customer.io. | | `User Unsuppressed` | Unsuppresses an identifier so you can add someone back to Customer.io and message them again. | | `Relationship Deleted` | Remove a relationship between a person and an object| | `Object Deleted` | Remove an object (like an account or company) from your Customer.io workspace| | `Report Delivery Event` | Report delivery events for messages|  ## Semantic events for other destinations  In addition to events that have special meanings [in Customer.io](#deletions-suppressions-and-other-semantic-events), we have a number of other events that we support across different kinds of destinations. These uniform events ensure that we'll map event data to destinations consistently—so you can move from one provider to another without having to change your event names or payload structures.  For example, our ecommerce events work across any ecommerce platform we integrate with—even if those ecommerce platforms have different APIs or payload structures.  See [Semantic Events](/integrations/data-in/semantic-events/getting-started/) to learn more.  * [A/B Test](/integrations/api/cdp/ab-test/) * [Ecommerce](/integrations/api/cdp/ecommerce/) * [Email](/integrations/api/cdp/email/) * [Live Chat](/integrations/api/cdp/live-chat/) * [Mobile App](/integrations/api/cdp/mobile-app/) * [Video](/integrations/api/cdp/video/)  ## Backfilling data  By default, Customer.io records a `timestamp` when we receive requests. If you're sending data to Customer.io in real time, you don't need to worry about the timestamp.  If you want to backfill requests, you can send a `timestamp`—an ISO 8601 date-time string—telling us when the request occurred. This provides a way to log `track` and `page` calls when the activities _actually_ took place. 
+ *
+ * The version of the OpenAPI document: 1.0.0
+ * 
+ * Generated by: https://openapi-generator.tech
+ */
+
+use crate::pipelines::models;
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Group {
+    /// The name of the event
+    #[serde(rename = "event")]
+    pub event: String,
+    /// The ID of the group you want to attribute an event to. Note that not all destinations allow groups (or their downstream equivalent) to perform groups.
+    #[serde(rename = "groupId")]
+    pub group_id: String,
+    /// The kind of request. Required in a `batch` call, where the endpoint can't tell us the type; the single-request endpoints set it for you.
+    #[serde(rename = "type")]
+    pub r#type: Type,
+    #[serde(rename = "context", skip_serializing_if = "Option::is_none")]
+    pub context: Option<Box<models::AliasAllContext>>,
+    /// Contains a list of booleans indicating the integrations that are enabled (true) or disabled (false). By default, all integrations are enabled (returning an empty object). Set `\"All\": false` to reverse this behavior. 
+    #[serde(rename = "integrations", skip_serializing_if = "Option::is_none")]
+    pub integrations: Option<std::collections::HashMap<String, bool>>,
+    /// A unique identifier for a Data Pipelines call, ensuring that each individual event is unique. This is set by Customer.io
+    #[serde(rename = "messageId", skip_serializing_if = "Option::is_none")]
+    pub message_id: Option<String>,
+    /// In general, you can use `timestamp` rather than this field if you want to back-date events. This is the timestamp on the client device you invoke a call or the timestamp value you manually passed in a server-side library call.
+    #[serde(rename = "originalTimestamp", skip_serializing_if = "Option::is_none")]
+    pub original_timestamp: Option<chrono::DateTime<chrono::FixedOffset>>,
+    /// Additional properties for your event.
+    #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
+    pub properties: Option<std::collections::HashMap<String, serde_json::Value>>,
+    /// The ISO-8601 timestamp when Data Pipelines receives an event.
+    #[serde(rename = "receivedAt", skip_serializing_if = "Option::is_none")]
+    pub received_at: Option<chrono::DateTime<chrono::FixedOffset>>,
+    /// The ISO-8601 timestamp when a library sends an event to Data Pipelines.
+    #[serde(rename = "sentAt", skip_serializing_if = "Option::is_none")]
+    pub sent_at: Option<chrono::DateTime<chrono::FixedOffset>>,
+    /// The ISO-8601 timestamp when the event originally took place. This is mostly useful when you backfill past events. If you're not backfilling data, you can leave this field empty and we'll use the current time or server time.
+    #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
+    pub timestamp: Option<chrono::DateTime<chrono::FixedOffset>>,
+    /// The version of the API that received the event, automatically set by Customer.io.
+    #[serde(rename = "version", skip_serializing_if = "Option::is_none")]
+    pub version: Option<f64>,
+}
+
+impl Group {
+    pub fn new(event: String, group_id: String, r#type: Type) -> Group {
+        Group {
+            event,
+            group_id,
+            r#type,
+            context: None,
+            integrations: None,
+            message_id: None,
+            original_timestamp: None,
+            properties: None,
+            received_at: None,
+            sent_at: None,
+            timestamp: None,
+            version: None,
+        }
+    }
+}
+/// The kind of request. Required in a `batch` call, where the endpoint can't tell us the type; the single-request endpoints set it for you.
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Type {
+    #[serde(rename = "track")]
+    Track,
+    /// Any value not defined in the spec (the API may add values before the spec does).
+    #[serde(untagged)]
+    UnknownValue(String),
+}
+
+impl Default for Type {
+    fn default() -> Type {
+        Self::Track
+    }
+}
+

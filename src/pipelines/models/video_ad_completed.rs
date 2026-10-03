@@ -1,0 +1,112 @@
+/*
+ * Pipelines API
+ *
+ * # Overview In general, you'll consume this API through one of our source libraries—our JavaScript client library or any of our server packages. But you can also integrate directly with our REST API if you don't want to install one of our libraries or you want to support a source that we don't have a native integration with.  # Server addresses: US and EU Customer.io hosts services in the United States (US) and European Union. Select the appropriate server address for your region.  | Region | Server Address | | :-- | :-- | | US | https://cdp.customer.io | | EU | https://cdp-eu.customer.io |  If you're in our EU region, you'll need to specify the EU URL when you initialize our server-side libraries. If you use our JavaScript client library, we'll set your region and route data/calls automatically.  # Authentication & rate limits  Our API uses basic authorization with the API key from your **Customer.io API** integration. If you use Postman or another platform that helps you send API calls, this API key is the *Username*, and the *Password* is blank.  # Get an API key  You can get a Pipelines API key by [setting up the **Customer.io API** integration](/integrations/data-in/connections/http-api/) in your workspace.  Now you can use the key as a username with a blank password to authenticate and send requests to our API.  ## Rate and payload limits  A request is limited to 32KB. A batch request is limited to 500KB total and 32KB per call in the request. If a request exceeds these limits, you will receive a 200 response, but the request will not go through.  The Data Pipelines API has a rate limit of 3000 requests per 3 seconds for both active data integrations and historical backfill scripts. This limit applies to both our v1 and v2 APIs.  While this rate is not strictly enforced, consistently exceeding it may lead to throttling or dropped data, especially during periods of high system load. If we detect a sustained high volume that could impact other customers, we may contact you to help adjust your integration or, in rare cases, temporarily block requests.  <div class=\"fly-panel fly-light regionUS\"> <div class=\"fly-panel-body us-server\"> <p class=\"text--bold\">Warning</p> <p>Rate limits are subject to change. We may adjust these thresholds to ensure stable performance for all customers.</p> </div></div>  # Try out our postman collection  We've generated a Postman collection with all of the endpoints organized as you'll find them on this page, with a starter environment (mainly to contain your API key). For our API endpoints, **your API key is your username and your password is blank**.  You'll notice that payloads on this page can contain significantly more information than the payloads that appear in our collection. We've limited our collections to the fields that you'll _typically_ use when you send calls to our APIs and libraries, so it's easier to get started. But you can add additional fields to payloads—like `context`, `integrations`, and so on—if you want.  If you fork this collection, you might want to disable the *Watch original collection* option. We automatically update our Postman collection whenever we release changes to our documentation, even if we don't change our APIs—which happens daily! Rather than being flooded with Postman notifications, you can check out our [Release Notes](/release-notes/) for updates to our APIs.  [<img src=\"https://run.pstmn.io/button.svg\" alt=\"Run In Postman\" style=\"width: 128px; height: 32px;\">](https://god.gw.postman.com/run-collection/23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61%26entityType%3Dcollection%26workspaceId%3D35e4a70d-66bd-4b3e-8a0c-57f9e32080dc#?env%5BCustomer.io%20Data%20Pipelines%20API%20Environment%5D=W3sia2V5IjoiY2RwX2FwaV91cmwiLCJ0eXBlIjoiZGVmYXVsdCIsInZhbHVlIjoiY2RwLmN1c3RvbWVyLmlvIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJ3cml0ZV9rZXkiLCJ0eXBlIjoic2VjcmV0IiwidmFsdWUiOiIiLCJlbmFibGVkIjp0cnVlfV0=)  # Deletions, suppressions, and other semantic events  You'll notice that this API only contains `POST` calls; we don't have `DELETE` operations. For delete operations, and other operations that don't have bespoke endpoints, we use *semantic events*.  When you need to do things like deleting people, removing relationships, and other sorts of things, you'll send a request to the `/track` endpoint with a specific event `name` parameter. The `name` tells us what to do with the request.  For example, you can send a `track` event with the name `Delete Person` to remove a person from your workspace.  See [Semantic Events](/integrations/data-in/semantic-events/cio-journeys/) to see Customer.io-specific events.  We also support semantic events for other kinds of destinations. See [Semantic Events for other destinations](#semantic-events-for-other-destinations) below for more information.  | Event Name | Description | |------|--------| | `Device Created or Updated` | Adds or updates a mobile device (by token), and associates it with a person | | `Device Deleted` | Deletes a device | | `User Deleted` | Removes a person from your workspace | | `User Suppressed` | Removes a person from your workspace and suppresses their identifiers so you can't add them back to Customer.io. | | `User Unsuppressed` | Unsuppresses an identifier so you can add someone back to Customer.io and message them again. | | `Relationship Deleted` | Remove a relationship between a person and an object| | `Object Deleted` | Remove an object (like an account or company) from your Customer.io workspace| | `Report Delivery Event` | Report delivery events for messages|  ## Semantic events for other destinations  In addition to events that have special meanings [in Customer.io](#deletions-suppressions-and-other-semantic-events), we have a number of other events that we support across different kinds of destinations. These uniform events ensure that we'll map event data to destinations consistently—so you can move from one provider to another without having to change your event names or payload structures.  For example, our ecommerce events work across any ecommerce platform we integrate with—even if those ecommerce platforms have different APIs or payload structures.  See [Semantic Events](/integrations/data-in/semantic-events/getting-started/) to learn more.  * [A/B Test](/integrations/api/cdp/ab-test/) * [Ecommerce](/integrations/api/cdp/ecommerce/) * [Email](/integrations/api/cdp/email/) * [Live Chat](/integrations/api/cdp/live-chat/) * [Mobile App](/integrations/api/cdp/mobile-app/) * [Video](/integrations/api/cdp/video/)  ## Backfilling data  By default, Customer.io records a `timestamp` when we receive requests. If you're sending data to Customer.io in real time, you don't need to worry about the timestamp.  If you want to backfill requests, you can send a `timestamp`—an ISO 8601 date-time string—telling us when the request occurred. This provides a way to log `track` and `page` calls when the activities _actually_ took place. 
+ *
+ * The version of the OpenAPI document: 1.0.0
+ * 
+ * Generated by: https://openapi-generator.tech
+ */
+
+use crate::pipelines::models;
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct VideoAdCompleted {
+    /// The ID of the video a user interacted with.
+    #[serde(rename = "asset_id", skip_serializing_if = "Option::is_none")]
+    pub asset_id: Option<String>,
+    /// For video destinations that require you to send content metadata with ad events, you can send all the content metadata in this object—like `content.title`, etc.
+    #[serde(rename = "content", skip_serializing_if = "Option::is_none")]
+    pub content: Option<serde_json::Value>,
+    /// Set to `dynamic` if you insert ads dynamically and `linear` if ads are the same for all viewers.
+    #[serde(rename = "load_type", skip_serializing_if = "Option::is_none")]
+    pub load_type: Option<LoadType>,
+    /// The ID of the content \"pod\" in a playback session. Imagine a video that contains content and an ad; that means the video contains two pods—one for the content and one for the ad. This is the specific piece of content that the user interacted with.
+    #[serde(rename = "pod_id", skip_serializing_if = "Option::is_none")]
+    pub pod_id: Option<String>,
+    /// The number of ad assets in the ad-pod
+    #[serde(rename = "pod_length", skip_serializing_if = "Option::is_none")]
+    pub pod_length: Option<i64>,
+    /// The position of the pod/asset relative to other assets in the same pod. If your ad pod plays 3 ads, you would indicate if this is add number 1, 2, or 3.
+    #[serde(rename = "pod_position", skip_serializing_if = "Option::is_none")]
+    pub pod_position: Option<i64>,
+    /// The current index position in **seconds** of the playhead, with respect to the length of the ad.
+    #[serde(rename = "position", skip_serializing_if = "Option::is_none")]
+    pub position: Option<i64>,
+    /// The ad's publisher.
+    #[serde(rename = "publisher", skip_serializing_if = "Option::is_none")]
+    pub publisher: Option<String>,
+    /// Specifies the quartile of the ad that a viewer reached. If you use our client-side libraries, we'll automatically track this for you.
+    #[serde(rename = "quartile", skip_serializing_if = "Option::is_none")]
+    pub quartile: Option<i64>,
+    /// The unique ID of the overall session used to tie all events generated from a specific playback. This value should be the same across all playback, content, and ad events if they are from the same playback session.
+    #[serde(rename = "session_id", skip_serializing_if = "Option::is_none")]
+    pub session_id: Option<String>,
+    /// The title of the ad.
+    #[serde(rename = "title", skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    /// The total duration of the ad in seconds.
+    #[serde(rename = "total_length", skip_serializing_if = "Option::is_none")]
+    pub total_length: Option<i64>,
+    /// The ad type. Values can include pre-roll, mid-roll, and post-roll.
+    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
+    pub r#type: Option<Type>,
+}
+
+impl VideoAdCompleted {
+    pub fn new() -> VideoAdCompleted {
+        VideoAdCompleted {
+            asset_id: None,
+            content: None,
+            load_type: None,
+            pod_id: None,
+            pod_length: None,
+            pod_position: None,
+            position: None,
+            publisher: None,
+            quartile: None,
+            session_id: None,
+            title: None,
+            total_length: None,
+            r#type: None,
+        }
+    }
+}
+/// Set to `dynamic` if you insert ads dynamically and `linear` if ads are the same for all viewers.
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum LoadType {
+    #[serde(rename = "dynamic")]
+    Dynamic,
+    #[serde(rename = "linear")]
+    Linear,
+    /// Any value not defined in the spec (the API may add values before the spec does).
+    #[serde(untagged)]
+    UnknownValue(String),
+}
+
+impl Default for LoadType {
+    fn default() -> LoadType {
+        Self::Dynamic
+    }
+}
+/// The ad type. Values can include pre-roll, mid-roll, and post-roll.
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Type {
+    #[serde(rename = "pre-roll")]
+    PreRoll,
+    #[serde(rename = "mid-roll")]
+    MidRoll,
+    #[serde(rename = "post-roll")]
+    PostRoll,
+    /// Any value not defined in the spec (the API may add values before the spec does).
+    #[serde(untagged)]
+    UnknownValue(String),
+}
+
+impl Default for Type {
+    fn default() -> Type {
+        Self::PreRoll
+    }
+}
+

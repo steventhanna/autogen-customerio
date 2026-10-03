@@ -1,0 +1,57 @@
+[package]
+name = "autogen-customerio"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Auto-generated, strongly-typed Rust client for the Customer.io APIs (Track, App, Pipelines)"
+keywords = ["customerio", "customer-io", "messaging", "api", "sdk"]
+categories = ["api-bindings"]
+repository = "https://github.com/steventhanna/autogen-customerio"
+readme = "README.md"
+
+# Ship only what consumers need; exclude regeneration tooling and generator markdown.
+exclude = [
+    "specs/",
+    "SPEC_HASH",
+    "generate.sh",
+    "scripts/",
+    ".github/",
+    ".openapi-generator-ignore",
+    "CLAUDE.md",
+]
+
+# Build docs.rs with every API enabled so the full surface is documented.
+[package.metadata.docs.rs]
+all-features = true
+
+[dependencies]
+chrono = { version = "^0.4", features = ["serde"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "query", "form"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
+serde = { version = "^1.0.181", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+serde_with = { version = "^3.8", default-features = false, features = ["base64", "std", "macros"] }
+url = "^2.5"
+uuid = { version = "^1.8", features = ["serde", "v4"] }
+# Streaming file uploads in the App API (Assets). Only compiled with the `app` feature.
+tokio = { version = "^1", features = ["fs"], optional = true }
+tokio-util = { version = "^0.7", features = ["codec"], optional = true }
+
+[dev-dependencies]
+tokio = { version = "^1", features = ["macros", "rt-multi-thread"] }
+wiremock = "^0.6"
+async-trait = "^0.1"
+http = "^1"
+
+[features]
+default = ["all", "native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls"]
+
+# Each Customer.io API is one feature. Selecting a subset compiles only those
+# services' endpoints AND models (each service is a self-contained module).
+all = ["track", "app", "pipelines"]
+track = []
+app = ["dep:tokio", "dep:tokio-util", "reqwest/stream"]
+pipelines = []

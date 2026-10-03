@@ -1,0 +1,127 @@
+/*
+ * Pipelines API
+ *
+ * # Overview In general, you'll consume this API through one of our source libraries—our JavaScript client library or any of our server packages. But you can also integrate directly with our REST API if you don't want to install one of our libraries or you want to support a source that we don't have a native integration with.  # Server addresses: US and EU Customer.io hosts services in the United States (US) and European Union. Select the appropriate server address for your region.  | Region | Server Address | | :-- | :-- | | US | https://cdp.customer.io | | EU | https://cdp-eu.customer.io |  If you're in our EU region, you'll need to specify the EU URL when you initialize our server-side libraries. If you use our JavaScript client library, we'll set your region and route data/calls automatically.  # Authentication & rate limits  Our API uses basic authorization with the API key from your **Customer.io API** integration. If you use Postman or another platform that helps you send API calls, this API key is the *Username*, and the *Password* is blank.  # Get an API key  You can get a Pipelines API key by [setting up the **Customer.io API** integration](/integrations/data-in/connections/http-api/) in your workspace.  Now you can use the key as a username with a blank password to authenticate and send requests to our API.  ## Rate and payload limits  A request is limited to 32KB. A batch request is limited to 500KB total and 32KB per call in the request. If a request exceeds these limits, you will receive a 200 response, but the request will not go through.  The Data Pipelines API has a rate limit of 3000 requests per 3 seconds for both active data integrations and historical backfill scripts. This limit applies to both our v1 and v2 APIs.  While this rate is not strictly enforced, consistently exceeding it may lead to throttling or dropped data, especially during periods of high system load. If we detect a sustained high volume that could impact other customers, we may contact you to help adjust your integration or, in rare cases, temporarily block requests.  <div class=\"fly-panel fly-light regionUS\"> <div class=\"fly-panel-body us-server\"> <p class=\"text--bold\">Warning</p> <p>Rate limits are subject to change. We may adjust these thresholds to ensure stable performance for all customers.</p> </div></div>  # Try out our postman collection  We've generated a Postman collection with all of the endpoints organized as you'll find them on this page, with a starter environment (mainly to contain your API key). For our API endpoints, **your API key is your username and your password is blank**.  You'll notice that payloads on this page can contain significantly more information than the payloads that appear in our collection. We've limited our collections to the fields that you'll _typically_ use when you send calls to our APIs and libraries, so it's easier to get started. But you can add additional fields to payloads—like `context`, `integrations`, and so on—if you want.  If you fork this collection, you might want to disable the *Watch original collection* option. We automatically update our Postman collection whenever we release changes to our documentation, even if we don't change our APIs—which happens daily! Rather than being flooded with Postman notifications, you can check out our [Release Notes](/release-notes/) for updates to our APIs.  [<img src=\"https://run.pstmn.io/button.svg\" alt=\"Run In Postman\" style=\"width: 128px; height: 32px;\">](https://god.gw.postman.com/run-collection/23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D23697545-287dd370-3d8b-4a71-80fe-75d6b7c7ff61%26entityType%3Dcollection%26workspaceId%3D35e4a70d-66bd-4b3e-8a0c-57f9e32080dc#?env%5BCustomer.io%20Data%20Pipelines%20API%20Environment%5D=W3sia2V5IjoiY2RwX2FwaV91cmwiLCJ0eXBlIjoiZGVmYXVsdCIsInZhbHVlIjoiY2RwLmN1c3RvbWVyLmlvIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJ3cml0ZV9rZXkiLCJ0eXBlIjoic2VjcmV0IiwidmFsdWUiOiIiLCJlbmFibGVkIjp0cnVlfV0=)  # Deletions, suppressions, and other semantic events  You'll notice that this API only contains `POST` calls; we don't have `DELETE` operations. For delete operations, and other operations that don't have bespoke endpoints, we use *semantic events*.  When you need to do things like deleting people, removing relationships, and other sorts of things, you'll send a request to the `/track` endpoint with a specific event `name` parameter. The `name` tells us what to do with the request.  For example, you can send a `track` event with the name `Delete Person` to remove a person from your workspace.  See [Semantic Events](/integrations/data-in/semantic-events/cio-journeys/) to see Customer.io-specific events.  We also support semantic events for other kinds of destinations. See [Semantic Events for other destinations](#semantic-events-for-other-destinations) below for more information.  | Event Name | Description | |------|--------| | `Device Created or Updated` | Adds or updates a mobile device (by token), and associates it with a person | | `Device Deleted` | Deletes a device | | `User Deleted` | Removes a person from your workspace | | `User Suppressed` | Removes a person from your workspace and suppresses their identifiers so you can't add them back to Customer.io. | | `User Unsuppressed` | Unsuppresses an identifier so you can add someone back to Customer.io and message them again. | | `Relationship Deleted` | Remove a relationship between a person and an object| | `Object Deleted` | Remove an object (like an account or company) from your Customer.io workspace| | `Report Delivery Event` | Report delivery events for messages|  ## Semantic events for other destinations  In addition to events that have special meanings [in Customer.io](#deletions-suppressions-and-other-semantic-events), we have a number of other events that we support across different kinds of destinations. These uniform events ensure that we'll map event data to destinations consistently—so you can move from one provider to another without having to change your event names or payload structures.  For example, our ecommerce events work across any ecommerce platform we integrate with—even if those ecommerce platforms have different APIs or payload structures.  See [Semantic Events](/integrations/data-in/semantic-events/getting-started/) to learn more.  * [A/B Test](/integrations/api/cdp/ab-test/) * [Ecommerce](/integrations/api/cdp/ecommerce/) * [Email](/integrations/api/cdp/email/) * [Live Chat](/integrations/api/cdp/live-chat/) * [Mobile App](/integrations/api/cdp/mobile-app/) * [Video](/integrations/api/cdp/video/)  ## Backfilling data  By default, Customer.io records a `timestamp` when we receive requests. If you're sending data to Customer.io in real time, you don't need to worry about the timestamp.  If you want to backfill requests, you can send a `timestamp`—an ISO 8601 date-time string—telling us when the request occurred. This provides a way to log `track` and `page` calls when the activities _actually_ took place. 
+ *
+ * The version of the OpenAPI document: 1.0.0
+ * 
+ * Generated by: https://openapi-generator.tech
+ */
+
+use crate::pipelines::models;
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct AmplitudeIdentifyUser {
+    /// Version of the app the user is on.
+    #[serde(rename = "app_version", skip_serializing_if = "Option::is_none")]
+    pub app_version: Option<String>,
+    /// The user's mobile carrier.
+    #[serde(rename = "carrier", skip_serializing_if = "Option::is_none")]
+    pub carrier: Option<String>,
+    /// The city in which the user is located.
+    #[serde(rename = "city", skip_serializing_if = "Option::is_none")]
+    pub city: Option<String>,
+    /// The country in which the user is located.
+    #[serde(rename = "country", skip_serializing_if = "Option::is_none")]
+    pub country: Option<String>,
+    /// The brand of user's the device.
+    #[serde(rename = "device_brand", skip_serializing_if = "Option::is_none")]
+    pub device_brand: Option<String>,
+    /// A device identifier, like the Identifier for Vendor (IDFV) on iOS. Required unless the request includes a `user_id`. 
+    #[serde(rename = "device_id", skip_serializing_if = "Option::is_none")]
+    pub device_id: Option<String>,
+    /// The manufacturer of the user's device.
+    #[serde(rename = "device_manufacturer", skip_serializing_if = "Option::is_none")]
+    pub device_manufacturer: Option<String>,
+    /// The model of the user's device.
+    #[serde(rename = "device_model", skip_serializing_if = "Option::is_none")]
+    pub device_model: Option<String>,
+    /// The Designated Market Area in which the user is located.
+    #[serde(rename = "dma", skip_serializing_if = "Option::is_none")]
+    pub dma: Option<String>,
+    /// Groups of users for the event as an event-level group. You can only track up to 5 groups. **Note:** This Amplitude feature is only available to Enterprise customers who have purchased the Accounts add-on.
+    #[serde(rename = "groups", skip_serializing_if = "Option::is_none")]
+    pub groups: Option<serde_json::Value>,
+    /// Amplitude will deduplicate subsequent events sent with this ID we have already seen before within the past 7 days. Amplitude recommends generating a UUID or using some combination of device ID, user ID, event type, event ID, and time.
+    #[serde(rename = "insert_id", skip_serializing_if = "Option::is_none")]
+    pub insert_id: Option<String>,
+    /// Language the user has set on their device or browser.
+    #[serde(rename = "language", skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    /// The name of the library that generated the event.
+    #[serde(rename = "library", skip_serializing_if = "Option::is_none")]
+    pub library: Option<String>,
+    /// Amplitude has a default minimum id length of 5 characters for `user_id`` and `device_id`` fields. This field allows the minimum to be overridden to allow shorter id lengths.
+    #[serde(rename = "min_id_length", skip_serializing_if = "Option::is_none")]
+    pub min_id_length: Option<i64>,
+    /// The mobile operating system or browser of the user's device.
+    #[serde(rename = "os_name", skip_serializing_if = "Option::is_none")]
+    pub os_name: Option<String>,
+    /// The version of the mobile operating system or browser of the user's device.
+    #[serde(rename = "os_version", skip_serializing_if = "Option::is_none")]
+    pub os_version: Option<String>,
+    /// Whether the user is paying or not.
+    #[serde(rename = "paying", skip_serializing_if = "Option::is_none")]
+    pub paying: Option<bool>,
+    /// The platform of the user's device.
+    #[serde(rename = "platform", skip_serializing_if = "Option::is_none")]
+    pub platform: Option<String>,
+    /// The referrer of a web request. Sent to Amplitude as both last touch “referrer” and first touch “initial_referrer”
+    #[serde(rename = "referrer", skip_serializing_if = "Option::is_none")]
+    pub referrer: Option<String>,
+    /// The geographical region in which the user is located.
+    #[serde(rename = "region", skip_serializing_if = "Option::is_none")]
+    pub region: Option<String>,
+    /// The version of the app the user was first on.
+    #[serde(rename = "start_version", skip_serializing_if = "Option::is_none")]
+    pub start_version: Option<String>,
+    /// A unique identifier for a user. If your call references user ID you haven't added to Amplitude yet, then the user tied to that ID will not be marked \"new\" until their first event. Required unless device ID is present.
+    #[serde(rename = "user_id", skip_serializing_if = "Option::is_none")]
+    pub user_id: Option<crate::ids::UserId>,
+    /// Additional data tied to the user in Amplitude. Each distinct value appears as a user segment in Amplitude. object depth cannot not exceed 40 layers. Date values are transformed to string strings.
+    #[serde(rename = "user_properties", skip_serializing_if = "Option::is_none")]
+    pub user_properties: Option<serde_json::Value>,
+    /// The user agent of the device sending the event.
+    #[serde(rename = "userAgent", skip_serializing_if = "Option::is_none")]
+    pub user_agent: Option<String>,
+    /// Enabling this setting will set the Device manufacturer, Device Model and OS Name properties based on the user agent string provided in the userAgent field
+    #[serde(rename = "userAgentParsing", skip_serializing_if = "Option::is_none")]
+    pub user_agent_parsing: Option<bool>,
+    #[serde(rename = "utm_properties", skip_serializing_if = "Option::is_none")]
+    pub utm_properties: Option<Box<models::CommonUtmProperties>>,
+}
+
+impl AmplitudeIdentifyUser {
+    pub fn new() -> AmplitudeIdentifyUser {
+        AmplitudeIdentifyUser {
+            app_version: None,
+            carrier: None,
+            city: None,
+            country: None,
+            device_brand: None,
+            device_id: None,
+            device_manufacturer: None,
+            device_model: None,
+            dma: None,
+            groups: None,
+            insert_id: None,
+            language: None,
+            library: None,
+            min_id_length: None,
+            os_name: None,
+            os_version: None,
+            paying: None,
+            platform: None,
+            referrer: None,
+            region: None,
+            start_version: None,
+            user_id: None,
+            user_properties: None,
+            user_agent: None,
+            user_agent_parsing: None,
+            utm_properties: None,
+        }
+    }
+}
+
