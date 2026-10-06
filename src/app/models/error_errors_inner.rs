@@ -19,6 +19,8 @@ pub struct ErrorErrorsInner {
     /// Additional detail about the error, when there is any. A failed publish uses this to list Liquid errors per language.
     #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
     pub meta: Option<serde_json::Value>,
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<Box<models::TriggerBroadcast422ResponseErrorsInnerSource>>,
     /// Response code
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
@@ -29,6 +31,7 @@ impl ErrorErrorsInner {
         ErrorErrorsInner {
             detail: None,
             meta: None,
+            source: None,
             status: None,
         }
     }
