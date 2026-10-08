@@ -474,7 +474,7 @@ pub async fn transactional_metrics(configuration: &configuration::Configuration,
     }
 }
 
-/// Update the body of a transactional email. This fully overwrites your existing transactional message. We'll use your updated content for any future transactional requests (`/v1/send/email`), so make sure that you test your message before you update it.   **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update the body of a transactional email. This fully overwrites your existing transactional message. We'll use your updated content for any future transactional requests (`/v1/send/email`), so make sure that you test your message before you update it.   **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_transactional(configuration: &configuration::Configuration, transactional_id: crate::ids::TransactionalMessageId, content_id: crate::ids::ContentId, update_transactional_action_object: Option<models::UpdateTransactionalActionObject>) -> Result<models::UpdateTransactional200Response, Error<UpdateTransactionalError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_transactional_id = transactional_id;
@@ -517,7 +517,7 @@ pub async fn update_transactional(configuration: &configuration::Configuration, 
     }
 }
 
-/// Update the body and other data of a specific language variant for a transactional message. This fully overwrites this specific translation of your existing transactional message.   **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update the body and other data of a specific language variant for a transactional message. This fully overwrites this specific translation of your existing transactional message.   **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_transactional_variant(configuration: &configuration::Configuration, transactional_id: crate::ids::TransactionalMessageId, language: &str, update_transactional_action_object: Option<models::UpdateTransactionalActionObject>) -> Result<models::UpdateTransactional200Response, Error<UpdateTransactionalVariantError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_transactional_id = transactional_id;

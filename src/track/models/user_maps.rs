@@ -29,6 +29,8 @@ pub struct UserMaps {
     /// Number of seconds after the send starts that the broadcast should stop sending. Omit or set to `0` if you don't want the broadcast to expire. If the broadcast expires before it finishes sending, Customer.io discards the messages that haven't gone out yet instead of delivering them late. The window runs from `scheduled_at` when you schedule the send, and from the time we receive this request when you don't. 
     #[serde(rename = "expires_after", skip_serializing_if = "Option::is_none")]
     pub expires_after: Option<i64>,
+    #[serde(rename = "filter", skip_serializing_if = "Option::is_none")]
+    pub filter: Option<Box<models::TriggerFilter>>,
     /// If false, a missing customer ID causes the broadcast to error and fail. If true, the broadcast will skip over any people in your audience who don't have IDs, and continue sending to the rest of your audience.
     #[serde(rename = "id_ignore_missing", skip_serializing_if = "Option::is_none")]
     pub id_ignore_missing: Option<bool>,
@@ -46,6 +48,7 @@ impl UserMaps {
             email_add_duplicates: None,
             email_ignore_missing: None,
             expires_after: None,
+            filter: None,
             id_ignore_missing: None,
             scheduled_at: None,
         }

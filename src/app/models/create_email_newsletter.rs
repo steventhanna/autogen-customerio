@@ -56,7 +56,7 @@ pub struct CreateEmailNewsletter {
     #[serde(rename = "recipient_file_url", skip_serializing_if = "Option::is_none")]
     pub recipient_file_url: Option<String>,
     #[serde(rename = "recipients", skip_serializing_if = "Option::is_none")]
-    pub recipients: Option<Box<models::Email1Recipients>>,
+    pub recipients: Option<Box<models::EmailRecipients>>,
     /// A Unix timestamp indicating when to send the one-time send. The time must be in the future. You cannot set both `send_now` and `scheduled_at`.
     #[serde(rename = "scheduled_at", skip_serializing_if = "Option::is_none")]
     pub scheduled_at: Option<i64>,

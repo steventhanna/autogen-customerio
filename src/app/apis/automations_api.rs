@@ -721,7 +721,7 @@ pub async fn list_campaigns(configuration: &configuration::Configuration, ) -> R
     }
 }
 
-/// Update the contents of an automation action, including the body of messages and HTTP requests.  **NOTE**: You can't manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update the contents of an automation action, including the body of messages and HTTP requests.  **NOTE**: You can't manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_campaign_action(configuration: &configuration::Configuration, campaign_id: crate::ids::CampaignId, action_id: crate::ids::ActionId, update_action_object: Option<models::UpdateActionObject>) -> Result<models::GetCampaignAction200Response, Error<UpdateCampaignActionError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_campaign_id = campaign_id;
@@ -764,7 +764,7 @@ pub async fn update_campaign_action(configuration: &configuration::Configuration
     }
 }
 
-/// Update the contents of a language variant of an automation action, including the body of the messages and HTTP requests.  **NOTE**: You can't manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update the contents of a language variant of an automation action, including the body of the messages and HTTP requests.  **NOTE**: You can't manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_campaign_action_translation(configuration: &configuration::Configuration, campaign_id: crate::ids::CampaignId, action_id: crate::ids::ActionId, language: &str, update_action_object: Option<models::UpdateActionObject>) -> Result<models::GetCampaignAction200Response, Error<UpdateCampaignActionTranslationError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_campaign_id = campaign_id;

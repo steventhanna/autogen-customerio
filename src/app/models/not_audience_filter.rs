@@ -11,8 +11,8 @@
 use crate::app::models;
 use serde::{Deserialize, Serialize};
 
-/// NotAudienceFilter : Returns results if a condition is false. While and/or support an array of items, `not` supports a single filter object.
-/// Returns results if a condition is false. While and/or support an array of items, `not` supports a single filter object.
+/// NotAudienceFilter : Returns people who don't match the condition inside it. `not` takes a single object, not an array. That object can be one condition, or an `and` or `or` group when you want to exclude people who match a combination of conditions.
+/// Returns people who don't match the condition inside it. `not` takes a single object, not an array. That object can be one condition, or an `and` or `or` group when you want to exclude people who match a combination of conditions.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum NotAudienceFilter {
