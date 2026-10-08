@@ -778,7 +778,7 @@ pub async fn list_broadcasts(configuration: &configuration::Configuration, ) -> 
     }
 }
 
-/// Update the contents of a broadcast action, including the body of messages or HTTP requests.   **NOTE** You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update the contents of a broadcast action, including the body of messages or HTTP requests.   **NOTE** You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_broadcast_action(configuration: &configuration::Configuration, broadcast_id: crate::ids::BroadcastId, action_id: crate::ids::ActionId, update_broadcast_action_object: Option<models::UpdateBroadcastActionObject>) -> Result<models::GetBroadcastAction200Response, Error<UpdateBroadcastActionError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_broadcast_id = broadcast_id;
@@ -821,7 +821,7 @@ pub async fn update_broadcast_action(configuration: &configuration::Configuratio
     }
 }
 
-/// Update a translation of a specific broadcast action, including the body of messages or HTTP requests.  **NOTE** You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. 
+/// Update a translation of a specific broadcast action, including the body of messages or HTTP requests.  **NOTE** You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. 
 pub async fn update_broadcast_action_language(configuration: &configuration::Configuration, broadcast_id: crate::ids::BroadcastId, action_id: crate::ids::ActionId, language: &str, update_broadcast_action_object: Option<models::UpdateBroadcastActionObject>) -> Result<models::GetBroadcastAction200Response, Error<UpdateBroadcastActionLanguageError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_broadcast_id = broadcast_id;

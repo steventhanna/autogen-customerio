@@ -17,6 +17,9 @@ pub struct SegmentAudienceFilter {
     /// The ID of the segment you want to return people from.
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
+    /// Set to `true` to match people who *aren't* in the segment.
+    #[serde(rename = "inverse", skip_serializing_if = "Option::is_none")]
+    pub inverse: Option<bool>,
 }
 
 impl SegmentAudienceFilter {
@@ -24,6 +27,7 @@ impl SegmentAudienceFilter {
     pub fn new() -> SegmentAudienceFilter {
         SegmentAudienceFilter {
             id: None,
+            inverse: None,
         }
     }
 }

@@ -27,7 +27,7 @@ pub enum GetChannelsError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetSubscriptionCenterTokenError {
-    Status400(models::CreateFolder400Response),
+    Status400(models::DeleteSnippet400Response),
     UnknownValue(serde_json::Value),
 }
 

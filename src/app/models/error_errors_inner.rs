@@ -13,13 +13,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ErrorErrorsInner {
-    /// Reason for error
+    /// A human-readable description of the error.
     #[serde(rename = "detail", skip_serializing_if = "Option::is_none")]
     pub detail: Option<String>,
     /// Additional detail about the error, when there is any. A failed publish uses this to list Liquid errors per language.
     #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
     pub meta: Option<serde_json::Value>,
-    /// Response code
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<Box<models::TriggerBroadcast422ResponseErrorsInnerSource>>,
+    /// The HTTP status code for this error, as a string.
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -29,6 +31,7 @@ impl ErrorErrorsInner {
         ErrorErrorsInner {
             detail: None,
             meta: None,
+            source: None,
             status: None,
         }
     }

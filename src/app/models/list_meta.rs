@@ -11,16 +11,17 @@
 use crate::app::models;
 use serde::{Deserialize, Serialize};
 
+/// ListMeta : Metadata about the paginated response including pagination details and applied filters.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ListMeta {
-    /// The filters applied in your request.
     #[serde(rename = "filters", skip_serializing_if = "Option::is_none")]
-    pub filters: Option<serde_json::Value>,
+    pub filters: Option<Box<models::ListMetaFilters>>,
     #[serde(rename = "pagination", skip_serializing_if = "Option::is_none")]
     pub pagination: Option<Box<models::ListMetaPagination>>,
 }
 
 impl ListMeta {
+    /// Metadata about the paginated response including pagination details and applied filters.
     pub fn new() -> ListMeta {
         ListMeta {
             filters: None,
