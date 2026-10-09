@@ -139,7 +139,7 @@ pub async fn get_person_optouts(configuration: &configuration::Configuration, cu
     }
 }
 
-/// Opt a person out of, or back in to, specific senders and channels. Provide one entry per sender/channel in the `optouts` array.  Set `optout` to `true` to opt the person out of a sender, or `false` to opt them back in. The `channel` field is optional and defaults to `sms`.  This request is processed asynchronously; it may take a moment for changes to reflect in read requests. 
+/// Opt a person out of, or back in to, specific senders and channels. Provide one entry per sender/channel in the `optouts` array.  Set `optout` to `true` to opt the person out of a sender, or `false` to opt them back in. The `channel` field is optional and defaults to `sms`.  This request is processed asynchronously; it may take a moment for changes to reflect in read requests.  Customer.io also writes a [consent record](/messaging/channels/subscriptions/consent-records/) for each entry, with the collection point `api`. 
 pub async fn update_person_optouts(configuration: &configuration::Configuration, customer_id: &str, id_type: Option<&str>, update_person_optouts_request: Option<models::UpdatePersonOptoutsRequest>) -> Result<(), Error<UpdatePersonOptoutsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_customer_id = customer_id;

@@ -30,7 +30,7 @@ pub enum CreateSnippetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteSnippetError {
-    Status400(models::CreateFolder400Response),
+    Status400(models::DeleteSnippet400Response),
     Status404(),
     Status429(models::AppApiError),
     UnknownValue(serde_json::Value),

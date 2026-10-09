@@ -29,7 +29,7 @@ pub struct ActivityObject {
     /// The identifier for the action.
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
-    /// The name of the event, for `event` and `screen` activities.
+    /// The name of the event, for `event` and `screen` activities. For `consent` activities, the consent action, which is `opted_in`, `opted_out`, or `voided`.
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
     /// The date and time when the action occurred.
