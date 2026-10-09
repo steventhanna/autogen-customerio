@@ -61,6 +61,8 @@ pub enum ActivityTypes {
     ClickedTwilio,
     #[serde(rename = "clicked_webhook")]
     ClickedWebhook,
+    #[serde(rename = "consent")]
+    Consent,
     #[serde(rename = "converted_action")]
     ConvertedAction,
     #[serde(rename = "converted_content")]
@@ -281,6 +283,7 @@ impl std::fmt::Display for ActivityTypes {
             Self::ClickedPush => write!(f, "clicked_push"),
             Self::ClickedTwilio => write!(f, "clicked_twilio"),
             Self::ClickedWebhook => write!(f, "clicked_webhook"),
+            Self::Consent => write!(f, "consent"),
             Self::ConvertedAction => write!(f, "converted_action"),
             Self::ConvertedContent => write!(f, "converted_content"),
             Self::ConvertedEmail => write!(f, "converted_email"),

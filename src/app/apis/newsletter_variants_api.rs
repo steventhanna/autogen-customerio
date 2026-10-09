@@ -145,7 +145,7 @@ pub enum UpdateNewsletterVariantTranslationError {
 }
 
 
-/// Add a language variant to a one-time send (referred to as a \"newsletter\" in our APIs).  If you omit optional fields, the values from the default template are copied over untranslated. Make sure you translate all aspects of your default template.  You can't add language variants to a one-time send that has already been sent. You can't manage emails created with the drag-and-drop editor or Design Studio via this endpoint—use [Create an email translation](/integrations/api/app/tag/design-studio/createEmailTranslation/) for Design Studio emails.  If it has A/B tests, use [Add a translation to a one-time send test group](/integrations/api/app/tag/newsletter-variants/createNewsletterTestLanguageVariant/) instead. 
+/// Add a language variant to a one-time send (referred to as a \"newsletter\" in our APIs).  If you omit optional fields, the values from the default template are copied over untranslated. Make sure you translate all aspects of your default template.  You can't add language variants to a one-time send that has already been sent. You can't manage emails created with the drag-and-drop editor or Design Studio via this endpoint—use [Create an email translation](/integrations/api/design-studio/tag/emails/createEmailTranslation/) for Design Studio emails.  If it has A/B tests, use [Add a translation to a one-time send test group](/integrations/api/app/tag/newsletter-variants/createNewsletterTestLanguageVariant/) instead. 
 pub async fn create_newsletter_language_variant(configuration: &configuration::Configuration, newsletter_id: crate::ids::NewsletterId, create_language_variant_request: models::CreateLanguageVariantRequest) -> Result<models::SendNewsletter200Response, Error<CreateNewsletterLanguageVariantError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_newsletter_id = newsletter_id;
@@ -537,7 +537,7 @@ pub async fn list_newsletter_variants(configuration: &configuration::Configurati
     }
 }
 
-/// Update the translation of a one-time send (referred to as a \"newsletter\" in our APIs) variant in an A/B test. You can retrieve a list of `test_group_ids` from [List a one-time send's A/B test groups](/integrations/api/app/tag/newsletter-variants/getNewsletterTestGroups/).  **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. You also can't update in-app or inbox message content through the API—change it in the message editor. 
+/// Update the translation of a one-time send (referred to as a \"newsletter\" in our APIs) variant in an A/B test. You can retrieve a list of `test_group_ids` from [List a one-time send's A/B test groups](/integrations/api/app/tag/newsletter-variants/getNewsletterTestGroups/).  **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. You also can't update in-app or inbox message content through the API—change it in the message editor. 
 pub async fn update_newsletter_test_translation(configuration: &configuration::Configuration, newsletter_id: crate::ids::NewsletterId, test_group_id: &str, language: &str, update_content_request: Option<models::UpdateContentRequest>) -> Result<models::GetNewsletterVariant200Response, Error<UpdateNewsletterTestTranslationError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_newsletter_id = newsletter_id;
@@ -581,7 +581,7 @@ pub async fn update_newsletter_test_translation(configuration: &configuration::C
     }
 }
 
-/// Update the content of a one-time send (referred to as a \"newsletter\" in our APIs): the default message, a test variant in an A/B test group, or a translation.  For an email, you can also update the envelope: from address, subject line, etc.  **NOTE**: You cannot manage content made with the drag-and-drop editor via API, and you cannot use this endpoint to update Design Studio emails. You can, however, [manage Design Studio content with other endpoints](/integrations/api/app/tag/design-studio/). You also can't update in-app or inbox message content through the API—use the message editor instead. 
+/// Update the content of a one-time send (referred to as a \"newsletter\" in our APIs): the default message, a test variant in an A/B test group, or a translation.  For an email, you can also update the envelope: from address, subject line, etc.  **NOTE**: You cannot manage content made with the drag-and-drop editor via API, and you cannot use this endpoint to update Design Studio emails. You can, however, [manage Design Studio content with other endpoints](/integrations/api/design-studio/). You also can't update in-app or inbox message content through the API—use the message editor instead. 
 pub async fn update_newsletter_variant(configuration: &configuration::Configuration, newsletter_id: crate::ids::NewsletterId, content_id: crate::ids::ContentId, update_content_request: Option<models::UpdateContentRequest>) -> Result<models::GetNewsletterVariant200Response, Error<UpdateNewsletterVariantError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_newsletter_id = newsletter_id;
@@ -624,7 +624,7 @@ pub async fn update_newsletter_variant(configuration: &configuration::Configurat
     }
 }
 
-/// Update the translation of a one-time send (referred to as a \"newsletter\" in our APIs) variant. If it includes A/B tests, use [Update a translation in a one-time send test group](/integrations/api/app/tag/newsletter-variants/updateNewsletterTestTranslation/).  **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/app/tag/design-studio/) instead. You also can't update in-app or inbox message content through the API—change it in the message editor. 
+/// Update the translation of a one-time send (referred to as a \"newsletter\" in our APIs) variant. If it includes A/B tests, use [Update a translation in a one-time send test group](/integrations/api/app/tag/newsletter-variants/updateNewsletterTestTranslation/).  **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. You also can't update in-app or inbox message content through the API—change it in the message editor. 
 pub async fn update_newsletter_variant_translation(configuration: &configuration::Configuration, newsletter_id: crate::ids::NewsletterId, language: &str, update_content_request: Option<models::UpdateContentRequest>) -> Result<models::GetNewsletterVariant200Response, Error<UpdateNewsletterVariantTranslationError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_newsletter_id = newsletter_id;

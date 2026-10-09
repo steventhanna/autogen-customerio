@@ -20,6 +20,9 @@ pub struct AttributeAudienceFilter {
     /// Determine how to evaluate criteria against the field—`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify.
     #[serde(rename = "operator")]
     pub operator: Operator,
+    /// Set to `true` to match people who *don't* meet the condition.
+    #[serde(rename = "inverse", skip_serializing_if = "Option::is_none")]
+    pub inverse: Option<bool>,
     /// The value you want to match for this attribute. You must include a value if you use the `eq` operator.
     #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
     pub value: Option<String>,
@@ -31,6 +34,7 @@ impl AttributeAudienceFilter {
         AttributeAudienceFilter {
             field,
             operator,
+            inverse: None,
             value: None,
         }
     }

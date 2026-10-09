@@ -17,11 +17,70 @@ pub enum ActivityObjectData {
     MessageDelivery(Box<models::MessageDelivery>),
     /// The name of the object is the attribute that changed.
     AttributeChange(std::collections::HashMap<String, models::AttributeChangeAction>),
+    ConsentRecord(Box<models::ConsentRecord>),
 }
 
 impl Default for ActivityObjectData {
     fn default() -> Self {
         Self::MessageDelivery(Default::default())
+    }
+}
+/// Where the change came from, like your subscription center or an SMS reply. The `subscription_preference_migration` and `sender_optout_migration` values mark records that Customer.io imported from preferences and opt-outs that existed before your account recorded consent.
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum CollectionPoint {
+    #[serde(rename = "api")]
+    Api,
+    #[serde(rename = "carrier_report")]
+    CarrierReport,
+    #[serde(rename = "double_opt_in_confirmation")]
+    DoubleOptInConfirmation,
+    #[serde(rename = "form")]
+    Form,
+    #[serde(rename = "import")]
+    Import,
+    #[serde(rename = "in_app_prompt")]
+    InAppPrompt,
+    #[serde(rename = "inbound_reply")]
+    InboundReply,
+    #[serde(rename = "list_unsubscribe_header")]
+    ListUnsubscribeHeader,
+    #[serde(rename = "one_click_unsubscribe")]
+    OneClickUnsubscribe,
+    #[serde(rename = "operator")]
+    Operator,
+    #[serde(rename = "sender_optout_migration")]
+    SenderOptoutMigration,
+    #[serde(rename = "subscription_center")]
+    SubscriptionCenter,
+    #[serde(rename = "subscription_preference_migration")]
+    SubscriptionPreferenceMigration,
+    #[serde(rename = "unsubscribe_link")]
+    UnsubscribeLink,
+    /// Any value not defined in the spec (the API may add values before the spec does).
+    #[serde(untagged)]
+    UnknownValue(String),
+}
+
+impl Default for CollectionPoint {
+    fn default() -> CollectionPoint {
+        Self::Api
+    }
+}
+/// The state the change left the person in.
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum ConsentState {
+    #[serde(rename = "subscribed")]
+    Subscribed,
+    #[serde(rename = "unsubscribed")]
+    Unsubscribed,
+    /// Any value not defined in the spec (the API may add values before the spec does).
+    #[serde(untagged)]
+    UnknownValue(String),
+}
+
+impl Default for ConsentState {
+    fn default() -> ConsentState {
+        Self::Subscribed
     }
 }
 
