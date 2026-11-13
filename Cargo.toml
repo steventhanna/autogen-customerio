@@ -1,6 +1,6 @@
 [package]
 name = "autogen-customerio"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MIT"
 description = "Auto-generated, strongly-typed Rust client for the Customer.io APIs (Track, App, Pipelines)"
