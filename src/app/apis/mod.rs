@@ -122,13 +122,12 @@ impl From<&str> for ContentType {
 
 pub mod activities_api;
 pub mod assets_api;
+pub mod audit_logs_api;
 pub mod automations_api;
 pub mod broadcasts_api;
 pub mod collections_api;
 pub mod customers_api;
 pub mod data_index_api;
-pub mod design_studio_api;
-pub mod design_studio_emails_api;
 pub mod esp_suppression_api;
 pub mod exports_api;
 pub mod imports_api;
